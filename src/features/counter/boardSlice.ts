@@ -20,9 +20,22 @@ const boardSlice = createSlice({
   name: 'board',
   initialState,
   reducers: {
-    initializeBoard: (state, action: PayloadAction<{ rows: number; cols: number; mines: number }>) => {
-      const { rows, cols, mines } = action.payload;
+    initializeBoard: (state, action: PayloadAction<{ rows: number; cols: number }>) => {
+      const { rows, cols } = action.payload;
       const newBoard: Cell[][] = Array.from({ length: rows }, () =>
+        Array.from({ length: cols }, () => ({ value: 0, revealed: false, isMine: false }))
+      );
+      state.board = newBoard;
+    },
+
+    setMines: (
+      state,
+      action: PayloadAction<{ mines: number; board: Cell[][]; firstClick: { row: number; col: number } }>
+    ) => {
+      const { mines, board, firstClick } = action.payload;
+      const rows = board.length;
+      const cols = board[0].length;
+      const newBoard = Array.from({ length: rows }, () =>
         Array.from({ length: cols }, () => ({ value: 0, revealed: false, isMine: false }))
       );
 
@@ -31,22 +44,28 @@ const boardSlice = createSlice({
         const randomRow = Math.floor(Math.random() * rows);
         const randomCol = Math.floor(Math.random() * cols);
 
-        if (!newBoard[randomRow][randomCol].isMine) {
+        if ((randomRow !== firstClick.row || randomCol !== firstClick.col) && !newBoard[randomRow][randomCol].isMine) {
           newBoard[randomRow][randomCol].isMine = true;
           minesCount++;
 
-          for (let i = Math.max(0, randomRow - 1); i <= Math.min(rows - 1, randomRow + 1); i++) {
-            for (let j = Math.max(0, randomCol - 1); j <= Math.min(cols - 1, randomCol + 1); j++) {
-              if (i !== randomRow || j !== randomCol) {
-                newBoard[i][j].value++;
+          if (!newBoard[randomRow][randomCol].isMine) {
+            newBoard[randomRow][randomCol].isMine = true;
+            minesCount++;
+
+            for (let i = Math.max(0, randomRow - 1); i <= Math.min(rows - 1, randomRow + 1); i++) {
+              for (let j = Math.max(0, randomCol - 1); j <= Math.min(cols - 1, randomCol + 1); j++) {
+                if (i !== randomRow || j !== randomCol) {
+                  newBoard[i][j].value++;
+                }
               }
             }
           }
         }
       }
 
-      state.board = newBoard;
+      state.board = board;
     },
+
     revealCell: (state, action: PayloadAction<{ row: number; col: number }>) => {
       const { row, col } = action.payload;
       const cell = state.board[row][col];
@@ -67,5 +86,5 @@ const boardSlice = createSlice({
   },
 });
 
-export const { initializeBoard, revealCell } = boardSlice.actions;
+export const { initializeBoard, revealCell, setMines } = boardSlice.actions;
 export default boardSlice.reducer;

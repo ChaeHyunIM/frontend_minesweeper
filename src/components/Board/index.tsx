@@ -1,7 +1,7 @@
 // Board.tsx
 
 import React, { useEffect } from 'react';
-import { initializeBoard, revealCell } from '../../features/counter/boardSlice';
+import { initializeBoard, revealCell, setMines } from '../../features/counter/boardSlice';
 import Cell from '../Cell';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 
@@ -16,11 +16,18 @@ const Board = ({ rows, cols, mines }: BoardProps) => {
   const board = useAppSelector((state: any) => state.board.board);
   console.log('board', board);
 
+  const [initialized, setInitialized] = React.useState(false);
+
   useEffect(() => {
-    dispatch(initializeBoard({ rows, cols, mines }));
-  }, [dispatch, rows, cols, mines]);
+    dispatch(initializeBoard({ rows, cols }));
+  }, []);
 
   const handleCellClick = (row: number, col: number) => {
+    if (!initialized) {
+      console.log('board2', board);
+      dispatch(setMines({ mines, board, firstClick: { row, col } }));
+      setInitialized(true);
+    }
     dispatch(revealCell({ row, col }));
   };
 
