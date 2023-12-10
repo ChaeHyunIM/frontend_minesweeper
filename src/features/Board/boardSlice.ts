@@ -144,5 +144,5 @@ function revealAdjacentCells(board: Cell[][], row: number, col: number) {
   }
 }
 
-export const { initializeBoard, revealCell, setMines } = boardSlice.actions;
+export const { initializeBoard, revealCell, setMines, toggleFlag } = boardSlice.actions;
 export default boardSlice.reducer;
