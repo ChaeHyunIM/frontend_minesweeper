@@ -33,11 +33,13 @@ const boardSlice = createSlice({
 
     setMines: (state, action: PayloadAction<{ mines: number; firstClick: { row: number; col: number } }>) => {
       const { mines, firstClick } = action.payload;
+      console.log('mines', mines);
       const rows = state.board.length;
       const cols = state.board[0].length;
       const newBoard: Cell[][] = Array.from({ length: rows }, () =>
         Array.from({ length: cols }, () => ({ value: 0, revealed: false, isMine: false, isFlagged: false }))
       );
+      console.log('newBoard', newBoard);
 
       let minesCount = 0;
       while (minesCount < mines) {

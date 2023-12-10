@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { initializeBoard, revealCell, setMines, toggleFlag } from '../../features/Board/boardSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import Cell from '../Cell';
-import { startTimer, stopTimer } from '../../features/Timer/timerSlice';
+import { reset, startTimer, stopTimer } from '../../features/Timer/timerSlice';
 import { RootState } from '../../app/store';
 
 const Board = () => {
@@ -15,10 +15,13 @@ const Board = () => {
   const level = useAppSelector((state: RootState) => state.level);
   const { name: levelName, rows, cols, mines } = level;
 
-  const [initialized, setInitialized] = React.useState(false);
+  const [clickedOnce, setClickedOnce] = React.useState(false);
 
   useEffect(() => {
     dispatch(initializeBoard({ rows, cols }));
+    setClickedOnce(false);
+    dispatch(stopTimer());
+    dispatch(reset());
   }, [levelName]);
 
   useEffect(() => {
@@ -31,10 +34,10 @@ const Board = () => {
   }, [status]);
 
   const handleCellClick = (row: number, col: number) => {
-    if (!initialized) {
+    if (!clickedOnce) {
       dispatch(setMines({ mines, firstClick: { row, col } }));
       dispatch(startTimer());
-      setInitialized(true);
+      setClickedOnce(true);
     }
     dispatch(revealCell({ row, col }));
   };
