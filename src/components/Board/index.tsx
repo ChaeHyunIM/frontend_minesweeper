@@ -7,24 +7,19 @@ import Cell from '../Cell';
 import { startTimer, stopTimer } from '../../features/Timer/timerSlice';
 import { RootState } from '../../app/store';
 
-interface BoardProps {
-  rows: number;
-  cols: number;
-  mines: number;
-}
-
-const Board = ({ rows, cols, mines }: BoardProps) => {
+const Board = () => {
   const dispatch = useAppDispatch();
   const boardState = useAppSelector((state: RootState) => state.board);
   const { board, status } = boardState;
   const time = useAppSelector((state: RootState) => state.timer.value);
-  const level = useAppSelector((state: RootState) => state.level.currentLevel);
+  const level = useAppSelector((state: RootState) => state.level);
+  const { name: levelName, rows, cols, mines } = level;
 
   const [initialized, setInitialized] = React.useState(false);
 
   useEffect(() => {
     dispatch(initializeBoard({ rows, cols }));
-  }, [level]);
+  }, [levelName]);
 
   useEffect(() => {
     if (status === 'gameOver' || status === 'victory') {
