@@ -5,6 +5,7 @@ import { initializeBoard, revealCell, setMines } from '../../features/counter/bo
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import Cell from '../Cell';
 import { startTimer, stopTimer } from '../../features/counter/timerSlice';
+import { RootState } from '../../app/store';
 
 interface BoardProps {
   rows: number;
@@ -14,13 +15,15 @@ interface BoardProps {
 
 const Board = ({ rows, cols, mines }: BoardProps) => {
   const dispatch = useAppDispatch();
-  const board = useAppSelector((state: any) => state.board.board);
-  const time = useAppSelector((state: any) => state.timer.value);
+  const board = useAppSelector((state: RootState) => state.board.board);
+  const time = useAppSelector((state: RootState) => state.timer.value);
+  const level = useAppSelector((state: RootState) => state.level.currentLevel);
+
   const [initialized, setInitialized] = React.useState(false);
 
   useEffect(() => {
     dispatch(initializeBoard({ rows, cols }));
-  }, []);
+  }, [level]);
 
   const handleCellClick = (row: number, col: number) => {
     if (!initialized) {
@@ -45,6 +48,9 @@ const Board = ({ rows, cols, mines }: BoardProps) => {
         ))}
       </div>
     ));
+  };
+  const levelButtonHandler = (rows: number, cols: number) => {
+    dispatch(initializeBoard({ rows, cols }));
   };
 
   if (!board || !board.length) return null;

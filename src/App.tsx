@@ -1,15 +1,14 @@
-import logo from "./logo.svg"
-import { Counter } from "./features/counter/Counter"
-import "./App.css"
-import Board from "./components/Board"
+import './App.css';
+import Board from './components/Board';
+import MineSweeperPage from './pages/MineSweeperPage';
 
 function App() {
   return (
     <div className="App">
-      <Counter />
+      <MineSweeperPage />
     </div>
-  )
+  );
   // return <Board rows={10} cols={10} mines={10} />
 }
 
-export default App
+export default App;
