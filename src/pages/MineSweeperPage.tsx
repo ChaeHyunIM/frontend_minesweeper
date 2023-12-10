@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import Board from '../components/Board';
 import { GAME_LEVEL } from '../constants/GameLevel';
-import { setLevel, Level } from '../features/counter/levelSlice';
+import { setLevel, Level } from '../features/Level/levelSlice';
 import useLocalStorage from '../hooks/useLocalStorage';
 
 export default function MineSweeperPage() {

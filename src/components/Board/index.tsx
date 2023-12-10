@@ -1,10 +1,10 @@
 // Board.tsx
 
 import React, { useEffect } from 'react';
-import { initializeBoard, revealCell, setMines } from '../../features/counter/boardSlice';
+import { initializeBoard, revealCell, setMines } from '../../features/Board/boardSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import Cell from '../Cell';
-import { startTimer, stopTimer } from '../../features/counter/timerSlice';
+import { startTimer, stopTimer } from '../../features/Timer/timerSlice';
 import { RootState } from '../../app/store';
 
 interface BoardProps {
