@@ -10,6 +10,7 @@ import {
   selectCount,
 } from "./counterSlice"
 import styles from "./Counter.module.css"
+import Board from "../../components/Board"
 
 export function Counter() {
   const count = useAppSelector(selectCount)
@@ -20,7 +21,7 @@ export function Counter() {
 
   return (
     <div>
-      <div className={styles.row}>
+      {/* <div className={styles.row}>
         <button
           className={styles.button}
           aria-label="Decrement value"
@@ -62,7 +63,8 @@ export function Counter() {
         >
           Add If Odd
         </button>
-      </div>
+      </div> */}
+      <Board rows={10} cols={10} mines={10} />
     </div>
   )
 }
