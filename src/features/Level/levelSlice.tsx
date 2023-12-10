@@ -12,7 +12,12 @@ interface LevelState {
   mines: number;
 }
 
-const initialState: LevelState = GAME_LEVEL[1];
+const initialState: LevelState = {
+  name: (localStorage.getItem('level') as Level) || GAME_LEVEL[1].name,
+  rows: Number(localStorage.getItem('rows') || GAME_LEVEL[1].rows.toString()),
+  cols: Number(localStorage.getItem('cols') || GAME_LEVEL[1].cols.toString()),
+  mines: Number(localStorage.getItem('mines') || GAME_LEVEL[1].mines.toString()),
+};
 
 const levelSlice = createSlice({
   name: 'level',

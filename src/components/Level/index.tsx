@@ -1,34 +1,26 @@
-import { useEffect, useState } from 'react';
-import useLocalStorage from '../../hooks/useLocalStorage';
+import { useState } from 'react';
 import { useAppDispatch } from '../../app/hooks';
 import { GAME_LEVEL } from '../../constants/GameLevel';
 import { Level, setLevel } from '../../features/Level/levelSlice';
 import Modal from '../Modal';
 
 export default function LevelChoose() {
-  const [levelInLocalStorage, setLevelInLocalStorage] = useLocalStorage('level', 'Intermediate');
   const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);
   const [rows, setRows] = useState('1');
   const [cols, setCols] = useState('1');
   const [mines, setMines] = useState('0');
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (levelInLocalStorage === 'Custom') {
-      setIsCustomModalOpen(true);
-    } else {
-      setIsCustomModalOpen(false);
-    }
-  }, [levelInLocalStorage]);
-
   const levelButtonHandler = (level: Level) => {
     if (level === 'Custom') {
       setIsCustomModalOpen(true);
     } else {
       const currentLevel = GAME_LEVEL?.find(l => l.name === level) || GAME_LEVEL[1];
-      console.log('currentLevel', currentLevel);
       dispatch(setLevel(currentLevel));
-      setLevelInLocalStorage(level);
+      localStorage.setItem('level', currentLevel.name);
+      localStorage.setItem('rows', currentLevel.rows.toString());
+      localStorage.setItem('cols', currentLevel.cols.toString());
+      localStorage.setItem('mines', currentLevel.mines.toString());
     }
   };
 
@@ -46,7 +38,10 @@ export default function LevelChoose() {
       return;
     }
     dispatch(setLevel({ name: 'Custom', rows: Number(rows), cols: Number(cols), mines: Number(mines) }));
-    setLevelInLocalStorage('Custom');
+    localStorage.setItem('level', 'Custom');
+    localStorage.setItem('rows', rows);
+    localStorage.setItem('cols', cols);
+    localStorage.setItem('mines', mines);
     setIsCustomModalOpen(false);
   };
 
