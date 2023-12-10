@@ -15,7 +15,8 @@ interface BoardProps {
 
 const Board = ({ rows, cols, mines }: BoardProps) => {
   const dispatch = useAppDispatch();
-  const board = useAppSelector((state: RootState) => state.board.board);
+  const boardState = useAppSelector((state: RootState) => state.board);
+  const { board, status } = boardState;
   const time = useAppSelector((state: RootState) => state.timer.value);
   const level = useAppSelector((state: RootState) => state.level.currentLevel);
 
@@ -25,9 +26,18 @@ const Board = ({ rows, cols, mines }: BoardProps) => {
     dispatch(initializeBoard({ rows, cols }));
   }, [level]);
 
+  useEffect(() => {
+    if (status === 'gameOver' || status === 'victory') {
+      dispatch(stopTimer());
+      setTimeout(() => {
+        alert(`Game ${status === 'gameOver' ? 'Over' : 'Won'}`);
+      }, 0);
+    }
+  }, [status]);
+
   const handleCellClick = (row: number, col: number) => {
     if (!initialized) {
-      dispatch(setMines({ mines, board, firstClick: { row, col } }));
+      dispatch(setMines({ mines, firstClick: { row, col } }));
       dispatch(startTimer());
       setInitialized(true);
     }
@@ -48,9 +58,6 @@ const Board = ({ rows, cols, mines }: BoardProps) => {
         ))}
       </div>
     ));
-  };
-  const levelButtonHandler = (rows: number, cols: number) => {
-    dispatch(initializeBoard({ rows, cols }));
   };
 
   if (!board || !board.length) return null;
