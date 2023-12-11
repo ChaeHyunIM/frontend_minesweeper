@@ -1,27 +1,12 @@
-# vite-template-redux
+# 지뢰찾기 과제
 
-Uses [Vite](https://vitejs.dev/), [Vitest](https://vitest.dev/), and [React Testing Library](https://github.com/testing-library/react-testing-library) to create a modern [React](https://react.dev/) app compatible with [Create React App](https://create-react-app.dev/)
+## 구현하지 못한 것
 
-```sh
-npx degit reduxjs/redux-templates/packages/vite-template-redux my-app
-```
+- 전체적인 스타일링
+  - 제 기준으로 시간이 많이 빠듯해서 기능구현에 일단 초점을 맞추느라 스타일링을 거의 못했습니다 (타이머, 보드 등)
+  - 많이 아쉽지만 앞으로 시간 분배와 사고능력을 길러 다 완성할 수 있으면 좋겠습니다.
 
-## Goals
+## 추가구현사항
 
-- Easy migration from Create React App or Vite
-- As beginner friendly as Create React App
-- Optimized performance compared to Create React App
-- Customizable without ejecting
-
-## Scripts
-
-- `dev`/`start` - start dev server and open browser
-- `build` - build for production
-- `preview` - locally preview production build
-- `test` - launch test runner
-
-## Inspiration
-
-- [Create React App](https://github.com/facebook/create-react-app/tree/main/packages/cra-template)
-- [Vite](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react)
-- [Vitest](https://github.com/vitest-dev/vitest/tree/main/examples/react-testing-lib)
+- 난이도 데이터 저장(브라우저 새로고침 시 유지)
+- 깃허브 코파일럿이 제시해주는 코드를 많이 참고하였습니다.
